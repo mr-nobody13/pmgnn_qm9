@@ -151,7 +151,7 @@ class PAMNet(nn.Module):
         pos_ji = pos[idx_j] - pos[idx_i]
         pos_kj = pos[idx_k] - pos[idx_j]
         a = (pos_ji * pos_kj).sum(dim=-1)
-        b = torch.cross(pos_ji, pos_kj).norm(dim=-1)
+        b = torch.cross(pos_ji, pos_kj, dim=-1).norm(dim=-1)
         angle2 = torch.atan2(b, a)
 
         # Compute one‑hop angles in the local graph
@@ -161,7 +161,7 @@ class PAMNet(nn.Module):
         pos_ji_pair = pos_j1_pair - pos_i_pair
         pos_jj_pair = pos_j2_pair - pos_j1_pair
         a = (pos_ji_pair * pos_jj_pair).sum(dim=-1)
-        b = torch.cross(pos_ji_pair, pos_jj_pair).norm(dim=-1)
+        b = torch.cross(pos_ji_pair, pos_jj_pair, dim=-1).norm(dim=-1)
         angle1 = torch.atan2(b, a)
 
         # Basis function embeddings
@@ -306,7 +306,7 @@ class PAMNet_s(nn.Module):
         pos_ji_pair = pos_j1_pair - pos_i_pair
         pos_jj_pair_vec = pos_j2_pair - pos_j1_pair
         a = (pos_ji_pair * pos_jj_pair_vec).sum(dim=-1)
-        b = torch.cross(pos_ji_pair, pos_jj_pair_vec).norm(dim=-1)
+        b = torch.cross(pos_ji_pair, pos_jj_pair_vec, dim=-1).norm(dim=-1)
         angle = torch.atan2(b, a)
 
         # Get radial and spherical basis embeddings
