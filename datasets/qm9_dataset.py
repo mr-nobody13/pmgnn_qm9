@@ -125,7 +125,7 @@ class QM9(InMemoryDataset):
 
     def __init__(self, root, transform=None, pre_transform=None, pre_filter=None):
         super(QM9, self).__init__(root, transform, pre_transform, pre_filter)
-        self.data, self.slices = torch.load(self.processed_paths[0])
+        self.data, self.slices = torch.load(self.processed_paths[0], weights_only=True)
 
     def mean(self, target):
         y = torch.cat([self.get(i).y for i in range(len(self))], dim=0)
