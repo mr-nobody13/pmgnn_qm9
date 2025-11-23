@@ -16,6 +16,8 @@ from models import PAMNet, PAMNet_s, Config
 from utils import EMA
 from datasets import QM9
 
+from tqdm.auto import tqdm
+
 
 def set_seed(seed):
     torch.backends.cudnn.deterministic = True
@@ -84,7 +86,7 @@ def main():
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False)
     print("Data loaded!")
-
+    
     config = Config(dataset=args.dataset, dim=args.dim, n_layer=args.n_layer, cutoff_l=args.cutoff_l, cutoff_g=args.cutoff_g)
 
     if args.model == 'PAMNet':
@@ -104,7 +106,11 @@ def main():
         loss_all = 0
         step = 0
         model.train()
-        for data in train_loader:
+        for data in tqdm(
+        train_loader,
+        desc=f"Epoch {epoch+1}/{args.epochs}",
+        leave=False,
+        ):
             data = data.to(device)
             optimizer.zero_grad()
 
