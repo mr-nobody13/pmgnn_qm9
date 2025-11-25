@@ -77,10 +77,20 @@ def main():
     dataset = QM9(path, transform=MyTransform()).shuffle()
 
     # Split dataset
-    train_dataset = dataset[:110000]
-    val_dataset = dataset[110000:120000]
-    test_dataset = dataset[120000:]
+    # train_dataset = dataset[:110000]
+    # val_dataset = dataset[110000:120000]
+    # test_dataset = dataset[120000:]
 
+        # ---- Small QM9 subset: 5000 molecules total ----
+    small_dataset = dataset[:5000]   # 5000 نمونه تصادفی از QM9
+
+    # 4000 train, 500 val, 500 test
+    train_dataset = small_dataset[:4000]
+    val_dataset   = small_dataset[4000:4500]
+    test_dataset  = small_dataset[4500:5000]
+    # -----------------------------------------------
+
+    
     # Load dataset
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
