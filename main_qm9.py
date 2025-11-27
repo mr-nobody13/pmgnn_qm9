@@ -17,6 +17,7 @@ from utils import EMA
 from datasets import QM9
 
 from tqdm.auto import tqdm
+import time
 
 
 def set_seed(seed):
@@ -110,6 +111,9 @@ def main():
 
     ema = EMA(model, decay=0.999)
 
+    # شروع تایمر آموزش (کل ایپاک‌ها)
+    train_start_time = time.time()
+
     print("Start training!")
     best_val_loss = None
     for epoch in range(args.epochs):
@@ -152,6 +156,9 @@ def main():
             'Test MAE: {:.7f}'.format(epoch+1, loss, val_loss, test_loss))
     print('Best Validation MAE:', best_val_loss)
     print('Testing MAE:', test_loss)
+    total_time = time.time() - train_start_time
+    print(f"Total training time: {total_time:.2f} s ({total_time/60:.2f} min)")
+
 
 
 if __name__ == "__main__":
